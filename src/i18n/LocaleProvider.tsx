@@ -32,7 +32,7 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
 		if (typeof res === "string") {
 			if (vars) {
 				Object.keys(vars).forEach((k) => {
-					res = res.replace(`{${k}}`, String(vars[k]));
+					res = (res as string).replace(`{${k}}`, String(vars[k]));
 				});
 			}
 			return res;
