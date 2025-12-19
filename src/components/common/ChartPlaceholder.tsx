@@ -27,7 +27,7 @@ export default function ChartPlaceholder({
     // Clear any existing content
     mountRef.current.innerHTML = "";
 
-    let chart: any = null;
+    let chart = null;
     let resizeObserver: ResizeObserver | null = null;
     let onWindowResize: (() => void) | null = null;
 
@@ -43,7 +43,7 @@ export default function ChartPlaceholder({
             const rect = mountEl.getBoundingClientRect();
             const width = Math.max(300, Math.min(700, Math.round(rect.width)));
             const height = Math.max(200, Math.min(320, Math.round(rect.height)));
-            chart = new (ChartoonBarChart as any)(mountEl, {
+            chart = new (ChartoonBarChart)(mountEl, {
               data: [{ title: "Series 1", data: [{ label: "A", value: 30 }, { label: "B", value: 55 }] }],
               width,
               height,
@@ -70,7 +70,7 @@ export default function ChartPlaceholder({
         }
 
         case "line": {
-          chart = new (ChartoonBasicLineChart as any)(mountEl, {
+          chart = new (ChartoonBasicLineChart)(mountEl, {
             data: [
               { title: "Jan", data: [{ label: "A", value: 30 }, { label: "B", value: 50 }] },
               { title: "Feb", data: [{ label: "A", value: 40 }, { label: "B", value: 60 }] },
@@ -85,7 +85,7 @@ export default function ChartPlaceholder({
 
         case "pie": {
           // Chartoon Pie expects grouped data: [{ title, data: [{ label, value }] }]
-          chart = new (ChartoonPieChart as any)(mountEl, {
+          chart = new (ChartoonPieChart)(mountEl, {
             data: [{ title: "Series 1", data: [{ label: "A", value: 30 }, { label: "B", value: 70 }] }],
             width: 320,
             height: 320,
@@ -102,7 +102,7 @@ export default function ChartPlaceholder({
             const width = Math.max(320, Math.min(900, Math.round(rect.width)));
             const height = Math.max(240, Math.min(600, Math.round(rect.height || Math.round(width * 0.6))));
 
-            chart = new (ChartoonMapChart as any)(mountEl, {
+            chart = new (ChartoonMapChart)(mountEl, {
               region: "uk",
               width,
               height,
@@ -127,14 +127,6 @@ export default function ChartPlaceholder({
           break;
         }
 
-        case "bullet": {
-          chart = new (ChartoonBulletChart as any)(mountEl, {
-            data: [{ title: "Revenue", ranges: [100, 200, 300], measures: [220], markers: [250] }],
-            width: 800,
-            height: 240,
-          });
-          break;
-        }
 
         default: {
           // no-op; keep placeholder
