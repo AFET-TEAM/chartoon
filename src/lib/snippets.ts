@@ -7,30 +7,32 @@ import type { ChartId } from "./constants";
 
 export const CHART_SNIPPETS: Record<ChartId, Record<string, string>> = {
   "get-started": {},
+
   bar: {
-    "Vanilla JS": `// Create a bar chart with Chartoon (vanilla JS)
-const el = document.querySelector('[data-chart-detail="bar"]');
-const data = [ { label: 'A', value: 30 }, { label: 'B', value: 55 } ];
-
-const chart = new Chartoon.BarChart(el, {
-  data,
-  width: 700,
-  height: 320,
-  colors: ['#1976d2']
-});
-
-chart.render();`,
-
     React: `// React example (functional component)
 import { useEffect, useRef } from 'react';
+import { ChartoonBarChart } from 'chartoon';
 
 export default function BarExample({ data }) {
-  const ref = useRef();
+  const ref = useRef(null);
+
   useEffect(() => {
-    const chart = new Chartoon.BarChart(ref.current, { data, width: 700, height: 320, colors: ['#1976d2'] });
-    chart.render();
-    return () => chart.destroy && chart.destroy();
+    if (!ref.current) return;
+
+    const chart = new ChartoonBarChart(ref.current, {
+      data,
+      width: 700,
+      height: 320,
+      colors: ['#1976d2', '#60a5fa'],
+      tooltipConfig: { padding: '8px' },
+      responsive: true
+    });
+
+    return () => {
+      if (ref.current) ref.current.innerHTML = '';
+    };
   }, [data]);
+
   return <div ref={ref} />;
 }`,
 
@@ -38,45 +40,78 @@ export default function BarExample({ data }) {
 <template>
   <div ref="el"></div>
 </template>
+
 <script setup>
 import { onMounted, ref, onBeforeUnmount } from 'vue';
+import { ChartoonBarChart } from 'chartoon';
+
 const el = ref(null);
+let chart = null;
+
 onMounted(() => {
-  const chart = new Chartoon.BarChart(el.value, { data: [{ label: 'A', value: 30 }, { label: 'B', value: 55 }], width:700, height:320 });
-  chart.render();
-  onBeforeUnmount(() => chart.destroy && chart.destroy());
+  chart = new ChartoonBarChart(el.value, {
+    data: [{ title: 'Series 1', data:[{label:'A',value:30},{label:'B',value:55}] }],
+    width:700,
+    height:320,
+    colors:['#1976d2']
+  });
+});
+
+onBeforeUnmount(() => {
+  if (el.value) el.value.innerHTML = '';
+  chart = null;
 });
 </script>`,
 
     Svelte: `<!-- Svelte component -->
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import { ChartoonBarChart } from 'chartoon';
+
   let el;
+  let chart;
+
   onMount(() => {
-    const chart = new Chartoon.BarChart(el, { data:[{ label:'A', value:30 }, { label:'B', value:55 }], width:700, height:320 });
-    chart.render();
-    onDestroy(() => chart.destroy && chart.destroy());
+    chart = new ChartoonBarChart(el, {
+      data:[{ title: 'Series 1', data:[{label:'A', value:30},{label:'B', value:55}] }],
+      width:700,
+      height:320,
+      colors:['#1976d2']
+    });
+  });
+
+  onDestroy(() => {
+    if (el) el.innerHTML = '';
+    chart = null;
   });
 </script>
-<div bind:this={el}></div>`,
+
+<div bind:this={el}></div>`
   },
 
   line: {
-    "Vanilla JS": `// Create a line chart with Chartoon (vanilla JS)
-const el = document.querySelector('[data-chart-detail="line"]');
-const data = [ { x: 0, y: 4 }, { x: 1, y: 7 }, { x: 2, y: 3 } ];
-
-const chart = new Chartoon.LineChart(el, { data, width: 720, height: 320, stroke: '#1976d2' });
-chart.render();`,
-
     React: `import { useEffect, useRef } from 'react';
+import { ChartoonBasicLineChart } from 'chartoon';
+
 export default function LineExample({ data }) {
-  const ref = useRef();
+  const ref = useRef(null);
+
   useEffect(() => {
-    const chart = new Chartoon.LineChart(ref.current, { data, width:720, height:320, stroke:'#1976d2' });
-    chart.render();
-    return () => chart.destroy && chart.destroy();
+    if (!ref.current) return;
+
+    const chart = new ChartoonBasicLineChart(ref.current, {
+      data,
+      width:720,
+      height:320,
+      colors:['#1976d2','#60a5fa'],
+      responsive: true
+    });
+
+    return () => {
+      if (ref.current) ref.current.innerHTML = '';
+    };
   }, [data]);
+
   return <div ref={ref} />;
 }`,
 
@@ -84,45 +119,83 @@ export default function LineExample({ data }) {
 <template>
   <div ref="el"></div>
 </template>
+
 <script setup>
 import { onMounted, ref, onBeforeUnmount } from 'vue';
+import { ChartoonBasicLineChart } from 'chartoon';
+
 const el = ref(null);
+let chart = null;
+
 onMounted(() => {
-  const chart = new Chartoon.LineChart(el.value, { data:[{x:0,y:4},{x:1,y:7},{x:2,y:3}], width:720, height:320 });
-  chart.render();
-  onBeforeUnmount(() => chart.destroy && chart.destroy());
+  chart = new ChartoonBasicLineChart(el.value, {
+    data: [
+      { title: 'Jan', data: [{ label: 'A', value: 30 }, { label: 'B', value: 50 }] },
+      { title: 'Feb', data: [{ label: 'A', value: 40 }, { label: 'B', value: 60 }] }
+    ],
+    width:720,
+    height:320,
+    colors:['#1976d2','#60a5fa']
+  });
+});
+
+onBeforeUnmount(() => {
+  if (el.value) el.value.innerHTML = '';
+  chart = null;
 });
 </script>`,
 
     Svelte: `<!-- Svelte component -->
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import { ChartoonBasicLineChart } from 'chartoon';
+
   let el;
+  let chart;
+
   onMount(() => {
-    const chart = new Chartoon.LineChart(el, { data:[{x:0,y:4},{x:1,y:7},{x:2,y:3}], width:720, height:320 });
-    chart.render();
-    onDestroy(() => chart.destroy && chart.destroy());
+    chart = new ChartoonBasicLineChart(el, {
+      data: [
+        { title: 'Jan', data: [{ label: 'A', value: 30 }, { label: 'B', value: 50 }] },
+        { title: 'Feb', data: [{ label: 'A', value: 40 }, { label: 'B', value: 60 }] }
+      ],
+      width:720,
+      height:320,
+      colors:['#34d399', '#60a5fa']
+    });
+  });
+
+  onDestroy(() => {
+    if (el) el.innerHTML = '';
+    chart = null;
   });
 </script>
-<div bind:this={el}></div>`,
+
+<div bind:this={el}></div>`
   },
 
   pie: {
-    "Vanilla JS": `// Create a pie chart with Chartoon (vanilla JS)
-const el = document.querySelector('[data-chart-detail="pie"]');
-const data = [ { label: 'Cats', value: 40 }, { label: 'Dogs', value: 60 } ];
-
-const chart = new Chartoon.PieChart(el, { data, size: 320, colors: ['#1976d2', '#60a5fa'] });
-chart.render();`,
-
     React: `import { useEffect, useRef } from 'react';
+import { ChartoonPieChart } from 'chartoon';
+
 export default function PieExample({ data }) {
-  const ref = useRef();
+  const ref = useRef(null);
+
   useEffect(() => {
-    const chart = new Chartoon.PieChart(ref.current, { data, size:320, colors:['#1976d2','#60a5fa'] });
-    chart.render();
-    return () => chart.destroy && chart.destroy();
+    if (!ref.current) return;
+
+    const chart = new ChartoonPieChart(ref.current, {
+      data,
+      width:320,
+      height:320,
+      tooltipVisible: true
+    });
+
+    return () => {
+      if (ref.current) ref.current.innerHTML = '';
+    };
   }, [data]);
+
   return <div ref={ref} />;
 }`,
 
@@ -130,74 +203,171 @@ export default function PieExample({ data }) {
 <template>
   <div ref="el"></div>
 </template>
+
 <script setup>
 import { onMounted, ref, onBeforeUnmount } from 'vue';
+import { ChartoonPieChart } from 'chartoon';
+
 const el = ref(null);
+let chart = null;
+
 onMounted(() => {
-  const chart = new Chartoon.PieChart(el.value, { data:[{label:'Cats',value:40},{label:'Dogs',value:60}], size:320 });
-  chart.render();
-  onBeforeUnmount(() => chart.destroy && chart.destroy());
+  chart = new ChartoonPieChart(el.value, {
+    data: [{ name: 'A', value: 30 }, { name: 'B', value: 70 }],
+    width:320,
+    height:320,
+    tooltipVisible: true
+  });
+});
+
+onBeforeUnmount(() => {
+  if (el.value) el.value.innerHTML = '';
+  chart = null;
 });
 </script>`,
 
     Svelte: `<!-- Svelte component -->
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import { ChartoonPieChart } from 'chartoon';
+
   let el;
+  let chart;
+
   onMount(() => {
-    const chart = new Chartoon.PieChart(el, { data:[{label:'Cats',value:40},{label:'Dogs',value:60}], size:320 });
-    chart.render();
-    onDestroy(() => chart.destroy && chart.destroy());
+    chart = new ChartoonPieChart(el, {
+      data: [{ name: 'A', value: 30 }, { name: 'B', value: 70 }],
+      width:320,
+      height:320,
+      tooltipVisible: true
+    });
+  });
+
+  onDestroy(() => {
+    if (el) el.innerHTML = '';
+    chart = null;
   });
 </script>
-<div bind:this={el}></div>`,
+
+<div bind:this={el}></div>`
+  },
+
+  bullet: {
+    React: `import { useEffect, useRef } from 'react';
+import { ChartoonBulletChart } from 'chartoon';
+
+export default function BulletExample() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    new ChartoonBulletChart(ref.current, {
+      data: [
+        { title: 'Revenue', ranges:[100,200,300], measures:[220], markers:[250] }
+      ],
+      width:800,
+      height:240
+    });
+
+    return () => {
+      if (ref.current) ref.current.innerHTML = '';
+    };
+  }, []);
+
+  return <div ref={ref} />;
+}`
   },
 
   world: {
-    "Vanilla JS": `// Create a world map chart with Chartoon (vanilla JS)
-const el = document.querySelector('[data-chart-detail="world"]');
-const data = [ /* geo + values */ ];
-
-const chart = new Chartoon.WorldChart(el, { data, width:900, height:480, projection:'naturalEarth1' });
-chart.render();`,
-
     React: `import { useEffect, useRef } from 'react';
-export default function WorldExample({ data }) {
-  const ref = useRef();
+import { ChartoonMapChart } from 'chartoon';
+
+export default function WorldExample() {
+  const ref = useRef(null);
+
   useEffect(() => {
-    const chart = new Chartoon.WorldChart(ref.current, { data, width:900, height:480 });
-    chart.render();
-    return () => chart.destroy && chart.destroy();
-  }, [data]);
-  return <div ref={ref} />;
+    if (!ref.current) return;
+
+    new ChartoonMapChart(ref.current, {
+      region: 'eu',
+      data: [
+        { name: 'France', value: 10 },
+        { name: 'Germany', value: 20 }
+      ],
+      width:900,
+      height:600,
+      responsive:true
+    });
+
+    return () => {
+      if (ref.current) ref.current.innerHTML = '';
+    };
+  }, []);
+
+  return <div ref={ref} style={{ width:'100%', height:600 }} />;
 }`,
 
     Vue: `<!-- Vue 3 component -->
 <template>
-  <div ref="el"></div>
+  <div ref="el" style="width:100%;height:600px"></div>
 </template>
+
 <script setup>
 import { onMounted, ref, onBeforeUnmount } from 'vue';
+import { ChartoonMapChart } from 'chartoon';
+
 const el = ref(null);
+let chart = null;
+
 onMounted(() => {
-  const chart = new Chartoon.WorldChart(el.value, { data:[], width:900, height:480 });
-  chart.render();
-  onBeforeUnmount(() => chart.destroy && chart.destroy());
+  chart = new ChartoonMapChart(el.value, {
+    region: 'eu',
+    data: [
+      { name: 'France', value: 10 },
+      { name: 'Germany', value: 20 }
+    ],
+    width:900,
+    height:600,
+    responsive:true
+  });
+});
+
+onBeforeUnmount(() => {
+  if (el.value) el.value.innerHTML = '';
+  chart = null;
 });
 </script>`,
 
     Svelte: `<!-- Svelte component -->
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import { ChartoonMapChart } from 'chartoon';
+
   let el;
+  let chart;
+
   onMount(() => {
-    const chart = new Chartoon.WorldChart(el, { data:[], width:900, height:480 });
-    chart.render();
-    onDestroy(() => chart.destroy && chart.destroy());
+    chart = new ChartoonMapChart(el, {
+      region: 'eu',
+      data: [
+        { name: 'France', value: 10 },
+        { name: 'Germany', value: 20 }
+      ],
+      width:900,
+      height:600,
+      responsive:true
+    });
+  });
+
+  onDestroy(() => {
+    if (el) el.innerHTML = '';
+    chart = null;
   });
 </script>
-<div bind:this={el}></div>`,
-  },
+
+<div bind:this={el} style="width:100%;height:600px"></div>`
+  }
 };
 
 /**

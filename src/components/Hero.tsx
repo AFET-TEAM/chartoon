@@ -3,9 +3,37 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "../i18n/LocaleProvider";
-
+import { ChartoonMapChart } from "chartoon"; 
+import { useEffect, useRef } from "react";
+import logo from "../assets/images/logo.png"
 export default function Hero() {
   const { t } = useTranslation();
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const chartRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (containerRef.current && !chartRef.current) {
+      containerRef.current.style.position = "relative";
+      chartRef.current = new ChartoonMapChart(containerRef.current, {
+        region: "eu", // "tr" | "eu" | "uk"
+        data: [
+          { name: "France", value: 10 },
+          { name: "Germany", value: 20 },
+        ],
+        tooltipVisible: true,
+        color: "#d8e6ff",
+        responsive: true, 
+        width: 900,
+        height: 600,
+      } as any);
+    }
+
+    return () => {
+      if (containerRef.current) containerRef.current.innerHTML = "";
+      chartRef.current = null;
+    };
+  }, []);
 
   return (
     <section className="w-full max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-8 py-16">
@@ -24,16 +52,8 @@ export default function Hero() {
       </div>
 
       <div className="flex-1">
-        <div className="relative w-full h-64 sm:h-[340px] rounded-2xl overflow-hidden shadow-md bg-gradient-to-br from-[#f6fbff] to-[#eef7ff] flex items-center justify-center">
-          <div className="text-center px-6">
-            <Image src="/file.svg" alt="chartoon" width={96} height={96} />
-            <p className="mt-4 text-sm text-neutral-600">{t("hero.image_caption")}</p>
-            <div
-              className="mt-3 mx-auto w-4/5 h-32 bg-white/60 dark:bg-black/20 rounded-md border border-dashed border-neutral-200"
-              data-chart-placeholder="hero"
-            />
-          </div>
-        </div>
+{/* <div ref={containerRef} style={{ width: "100%", height: 600 , borderRadius: 12, maxHeight: "50%"}} /> */}
+    <img src={logo.src} alt="Chartoon Logo" />
       </div>
     </section>
   );

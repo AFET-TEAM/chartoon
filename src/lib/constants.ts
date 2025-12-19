@@ -24,6 +24,7 @@ export const CHART_DIMENSIONS = {
   line: { width: 720, height: 320 },
   pie: { size: 320 },
   world: { width: 900, height: 480 },
+  bullet: { width: 800, height: 240 },
 } as const;
 
 export const COLORS = {
@@ -39,7 +40,7 @@ export const DATA_ATTRIBUTES = {
   chartPlaceholder: "data-chart-placeholder",
 } as const;
 
-export const CHART_TYPES = ["bar", "line", "pie", "world"] as const;
+export const CHART_TYPES = ["bar", "line", "pie", "world", "bullet"] as const;
 export type ChartType = (typeof CHART_TYPES)[number];
 
 export const FULL_CHART_ID = ["get-started", ...CHART_TYPES] as const;

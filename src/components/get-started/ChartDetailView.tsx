@@ -2,8 +2,10 @@
 import CodeTabs from "../CodeTabs";
 import ChartPlaceholder from "../common/ChartPlaceholder";
 
+import type { ChartId } from "../../lib/constants";
+
 interface ChartDetailViewProps {
-  chartId: string;
+  chartId: ChartId;
   chartTitle: string;
   snippets: Record<string, string>;
 }

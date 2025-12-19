@@ -45,7 +45,7 @@
     "title": "Get Started",
     "description": "A short example showing how to install and use an npm package. (You can change these texts later.)",
     "installTitle": "Install",
-    "installCommand": "npm install example-package@latest",
+    "installCommand": "npm i chartoon",
     "usageTitle": "Usage",
     "usageCode": "import { createChart } from 'example-package';\n\n// create a chart\ncreateChart(document.getElementById('root'));",
     "backToHome": "Back to home"

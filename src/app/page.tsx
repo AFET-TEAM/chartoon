@@ -8,7 +8,6 @@ export default function Home() {
       <main className="px-6">
         <Hero />
         <Features />
-        <Showcase />
       </main>
     </div>
   );

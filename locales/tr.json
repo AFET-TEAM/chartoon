@@ -45,7 +45,7 @@
     "title": "Başlarken",
     "description": "Bir npm paketinin nasıl kurulacağını ve kullanılacağını gösteren kısa bir örnek. (Metinleri daha sonra değiştirebilirsiniz.)",
     "installTitle": "Kurulum",
-    "installCommand": "npm install example-package@latest",
+    "installCommand": "npm i chartoon",
     "usageTitle": "Kullanım",
     "usageCode": "import { createChart } from 'example-package';\n\n// bir grafik oluştur\ncreateChart(document.getElementById('root'));",
     "backToHome": "Ana sayfaya dön"
