@@ -30,8 +30,10 @@
     "charts": [
       {"id": "bar", "title": "Bar Chart", "href": "/get-started?chart=bar"},
       {"id": "line", "title": "Line Chart", "href": "/get-started?chart=line"},
+      {"id": "area", "title": "Area Chart", "href": "/get-started?chart=area"},
       {"id": "pie", "title": "Pie Chart", "href": "/get-started?chart=pie"},
       {"id": "world", "title": "Map Chart", "href": "/get-started?chart=world"},
+      {"id": "bullet", "title": "Bullet Chart", "href": "/get-started?chart=bullet"},
       {"id": "radar", "title": "Radar Chart", "href": "/get-started?chart=radar"}
     ],
     "placeholder_suffix": "— burada gösterilecek"
@@ -49,6 +51,11 @@
     "installCommand": "npm i chartoon",
     "usageTitle": "Kullanım",
     "usageCode": "import { createChart } from 'example-package';\n\n// bir grafik oluştur\ncreateChart(document.getElementById('root'));",
-    "backToHome": "Ana sayfaya dön"
+    "backToHome": "Ana sayfaya dön",
+    "mapRegions": {
+      "turkey": "Türkiye",
+      "europe": "Avrupa",
+      "uk": "Birleşik Krallık"
+    }
   }
 }

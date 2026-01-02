@@ -9,7 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "chartoon": "^0.1.5",
+    "chartoon": "^0.1.7",
     "next": "^15.5.9",
     "react": "19.1.0",
     "react-dom": "19.1.0"

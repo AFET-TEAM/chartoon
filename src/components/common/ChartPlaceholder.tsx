@@ -13,12 +13,14 @@ interface ChartPlaceholderProps {
   chartId: ChartId;
   title: string;
   height?: string;
+  mapRegion?: string;
 }
 
 export default function ChartPlaceholder({
   chartId,
   title,
   height = "h-80",
+  mapRegion = "tr",
 }: ChartPlaceholderProps) {
   const mountRef = useRef<HTMLDivElement | null>(null);
 
@@ -84,6 +86,25 @@ export default function ChartPlaceholder({
           break;
         }
 
+        case "area": {
+          const areaData = [
+            { title: "Jan", data: [{ label: "A", value: 30 }, { label: "B", value: 50 }, { label: "C", value: 40 }] },
+            { title: "Feb", data: [{ label: "A", value: 40 }, { label: "B", value: 60 }, { label: "C", value: 55 }] },
+            { title: "Mar", data: [{ label: "A", value: 35 }, { label: "B", value: 55 }, { label: "C", value: 50 }] },
+            { title: "Apr", data: [{ label: "A", value: 50 }, { label: "B", value: 70 }, { label: "C", value: 65 }] },
+          ];
+
+          chart = new (ChartoonBasicLineChart)(mountEl, {
+            data: areaData,
+            width: 720,
+            height: 320,
+            colors: ["#1976d2", "#60a5fa", "#ef4444"],
+            responsive: true,
+            type: "area",
+          });
+          break;
+        }
+
         case "pie": {
           // Chartoon Pie expects grouped data: [{ title, data: [{ label, value }] }]
           chart = new (ChartoonPieChart)(mountEl, {
@@ -104,10 +125,11 @@ export default function ChartPlaceholder({
             const height = Math.max(240, Math.min(600, Math.round(rect.height || Math.round(width * 0.6))));
 
             chart = new (ChartoonMapChart)(mountEl, {
-              region: "uk",
+              region: mapRegion,
               width,
               height,
               responsive: true,
+              tooltipVisible: true,
             });
           };
 
@@ -122,6 +144,64 @@ export default function ChartPlaceholder({
             resizeObserver.observe(mountEl);
           } else {
             onWindowResize = () => createWorld();
+            window.addEventListener("resize", onWindowResize);
+          }
+
+          break;
+        }
+
+        case "bullet": {
+          const createBullet = () => {
+            if (!mountEl) return;
+            mountEl.innerHTML = "";
+            const rect = mountEl.getBoundingClientRect();
+            const width = Math.max(400, Math.min(800, Math.round(rect.width)));
+            const height = Math.max(200, Math.min(400, Math.round(rect.height)));
+
+            const bulletData = [
+              {
+                title: "Gelir",
+                subtitle: "2024 Q4",
+                ranges: [150, 225, 300],
+                measures: [220, 270],
+                markers: [250],
+              },
+              {
+                title: "Kar",
+                subtitle: "2024 Q4",
+                ranges: [20, 50, 100],
+                measures: [35, 60],
+                markers: [70],
+              },
+              {
+                title: "Müşteri Memnuniyeti",
+                subtitle: "Puan",
+                ranges: [60, 80, 100],
+                measures: [75, 90],
+                markers: [85],
+              },
+            ];
+
+            chart = new ChartoonBulletChart(mountEl, {
+              data: bulletData,
+              margin: { top: 20, right: 40, bottom: 20, left: 120 },
+              width,
+              height,
+              responsive: true,
+            } as any);
+          };
+
+          // initial create
+          createBullet();
+
+          // observe for size changes
+          if (typeof ResizeObserver !== "undefined") {
+            resizeObserver = new ResizeObserver(() => {
+              createBullet();
+            });
+            resizeObserver.observe(mountEl);
+          } else {
+            onWindowResize = () => createBullet();
             window.addEventListener("resize", onWindowResize);
           }
 
@@ -216,7 +296,7 @@ export default function ChartPlaceholder({
       if (onWindowResize) window.removeEventListener("resize", onWindowResize);
       chart = null;
     };
-  }, [chartId]);
+  }, [chartId, mapRegion]);
 
   return (
     <div

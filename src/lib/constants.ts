@@ -22,6 +22,7 @@ export const BORDER_RADIUS = {
 export const CHART_DIMENSIONS = {
   bar: { width: 700, height: 320 },
   line: { width: 720, height: 320 },
+  area: { width: 720, height: 320 },
   pie: { size: 320 },
   world: { width: 900, height: 480 },
   bullet: { width: 800, height: 240 },
@@ -41,7 +42,7 @@ export const DATA_ATTRIBUTES = {
   chartPlaceholder: "data-chart-placeholder",
 } as const;
 
-export const CHART_TYPES = ["bar", "line", "pie", "world", "bullet", "radar"] as const;
+export const CHART_TYPES = ["bar", "line", "area", "pie", "world", "bullet", "radar"] as const;
 export type ChartType = (typeof CHART_TYPES)[number];
 
 export const FULL_CHART_ID = ["get-started", ...CHART_TYPES] as const;

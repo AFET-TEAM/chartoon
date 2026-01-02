@@ -174,6 +174,111 @@ onBeforeUnmount(() => {
 <div bind:this={el}></div>`
   },
 
+  area: {
+    React: `import { useEffect, useRef } from 'react';
+import { ChartoonBasicLineChart } from 'chartoon';
+
+export default function AreaExample() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const areaData = [
+      { title: "Jan", data: [{ label: "A", value: 30 }, { label: "B", value: 50 }, { label: "C", value: 40 }] },
+      { title: "Feb", data: [{ label: "A", value: 40 }, { label: "B", value: 60 }, { label: "C", value: 55 }] },
+      { title: "Mar", data: [{ label: "A", value: 35 }, { label: "B", value: 55 }, { label: "C", value: 50 }] },
+      { title: "Apr", data: [{ label: "A", value: 50 }, { label: "B", value: 70 }, { label: "C", value: 65 }] }
+    ];
+
+    const chart = new ChartoonBasicLineChart(ref.current, {
+      data: areaData,
+      width: 720,
+      height: 320,
+      colors: ['#1976d2', '#60a5fa', '#ef4444'],
+      responsive: true,
+      type: 'area'
+    });
+
+    return () => {
+      if (ref.current) ref.current.innerHTML = '';
+    };
+  }, []);
+
+  return <div ref={ref} />;
+}`,
+
+    Vue: `<!-- Vue 3 component -->
+<template>
+  <div ref="el"></div>
+</template>
+
+<script setup>
+import { onMounted, ref, onBeforeUnmount } from 'vue';
+import { ChartoonBasicLineChart } from 'chartoon';
+
+const el = ref(null);
+let chart = null;
+
+onMounted(() => {
+  const areaData = [
+    { title: 'Jan', data: [{ label: 'A', value: 30 }, { label: 'B', value: 50 }, { label: 'C', value: 40 }] },
+    { title: 'Feb', data: [{ label: 'A', value: 40 }, { label: 'B', value: 60 }, { label: 'C', value: 55 }] },
+    { title: 'Mar', data: [{ label: 'A', value: 35 }, { label: 'B', value: 55 }, { label: 'C', value: 50 }] },
+    { title: 'Apr', data: [{ label: 'A', value: 50 }, { label: 'B', value: 70 }, { label: 'C', value: 65 }] }
+  ];
+
+  chart = new ChartoonBasicLineChart(el.value, {
+    data: areaData,
+    width: 720,
+    height: 320,
+    colors: ['#1976d2', '#60a5fa', '#ef4444'],
+    responsive: true,
+    type: 'area'
+  });
+});
+
+onBeforeUnmount(() => {
+  if (el.value) el.value.innerHTML = '';
+  chart = null;
+});
+</script>`,
+
+    Svelte: `<!-- Svelte component -->
+<script>
+  import { onMount, onDestroy } from 'svelte';
+  import { ChartoonBasicLineChart } from 'chartoon';
+
+  let el;
+  let chart;
+
+  onMount(() => {
+    const areaData = [
+      { title: 'Jan', data: [{ label: 'A', value: 30 }, { label: 'B', value: 50 }, { label: 'C', value: 40 }] },
+      { title: 'Feb', data: [{ label: 'A', value: 40 }, { label: 'B', value: 60 }, { label: 'C', value: 55 }] },
+      { title: 'Mar', data: [{ label: 'A', value: 35 }, { label: 'B', value: 55 }, { label: 'C', value: 50 }] },
+      { title: 'Apr', data: [{ label: 'A', value: 50 }, { label: 'B', value: 70 }, { label: 'C', value: 65 }] }
+    ];
+
+    chart = new ChartoonBasicLineChart(el, {
+      data: areaData,
+      width: 720,
+      height: 320,
+      colors: ['#1976d2', '#60a5fa', '#ef4444'],
+      responsive: true,
+      type: 'area'
+    });
+  });
+
+  onDestroy(() => {
+    if (el) el.innerHTML = '';
+    chart = null;
+  });
+</script>
+
+<div bind:this={el}></div>`
+  },
+
   pie: {
     React: `import { useEffect, useRef } from 'react';
 import { ChartoonPieChart } from 'chartoon';
@@ -262,12 +367,29 @@ export default function BulletExample() {
   useEffect(() => {
     if (!ref.current) return;
 
+    const bulletData = [
+      {
+        title: 'Gelir',
+        subtitle: '2024 Q4',
+        ranges: [150, 225, 300],
+        measures: [220, 270],
+        markers: [250]
+      },
+      {
+        title: 'Kar',
+        subtitle: '2024 Q4',
+        ranges: [20, 50, 100],
+        measures: [35, 60],
+        markers: [70]
+      }
+    ];
+
     new ChartoonBulletChart(ref.current, {
-      data: [
-        { title: 'Revenue', ranges:[100,200,300], measures:[220], markers:[250] }
-      ],
-      width:800,
-      height:240
+      data: bulletData,
+      width: 800,
+      height: 400,
+      margin: { top: 20, right: 40, bottom: 20, left: 120 },
+      responsive: true
     });
 
     return () => {
@@ -276,7 +398,95 @@ export default function BulletExample() {
   }, []);
 
   return <div ref={ref} />;
-}`
+}`,
+
+    Vue: `<!-- Vue 3 component -->
+<template>
+  <div ref="el"></div>
+</template>
+
+<script setup>
+import { onMounted, ref, onBeforeUnmount } from 'vue';
+import { ChartoonBulletChart } from 'chartoon';
+
+const el = ref(null);
+let chart = null;
+
+onMounted(() => {
+  const bulletData = [
+    {
+      title: 'Gelir',
+      subtitle: '2024 Q4',
+      ranges: [150, 225, 300],
+      measures: [220, 270],
+      markers: [250]
+    },
+    {
+      title: 'Kar',
+      subtitle: '2024 Q4',
+      ranges: [20, 50, 100],
+      measures: [35, 60],
+      markers: [70]
+    }
+  ];
+
+  chart = new ChartoonBulletChart(el.value, {
+    data: bulletData,
+    width: 800,
+    height: 400,
+    margin: { top: 20, right: 40, bottom: 20, left: 120 },
+    responsive: true
+  });
+});
+
+onBeforeUnmount(() => {
+  if (el.value) el.value.innerHTML = '';
+  chart = null;
+});
+</script>`,
+
+    Svelte: `<!-- Svelte component -->
+<script>
+  import { onMount, onDestroy } from 'svelte';
+  import { ChartoonBulletChart } from 'chartoon';
+
+  let el;
+  let chart;
+
+  onMount(() => {
+    const bulletData = [
+      {
+        title: 'Gelir',
+        subtitle: '2024 Q4',
+        ranges: [150, 225, 300],
+        measures: [220, 270],
+        markers: [250]
+      },
+      {
+        title: 'Kar',
+        subtitle: '2024 Q4',
+        ranges: [20, 50, 100],
+        measures: [35, 60],
+        markers: [70]
+      }
+    ];
+
+    chart = new ChartoonBulletChart(el, {
+      data: bulletData,
+      width: 800,
+      height: 400,
+      margin: { top: 20, right: 40, bottom: 20, left: 120 },
+      responsive: true
+    });
+  });
+
+  onDestroy(() => {
+    if (el) el.innerHTML = '';
+    chart = null;
+  });
+</script>
+
+<div bind:this={el}></div>`
   },
 
   world: {
