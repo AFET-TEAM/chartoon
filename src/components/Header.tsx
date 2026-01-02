@@ -6,6 +6,7 @@ import LanguageDropdown from "./common/LanguageDropdown";
 import NavLink from "./common/NavLink";
 import { useTranslation } from "../i18n/LocaleProvider";
 import { NAV_LINKS } from "../lib/constants";
+import { CHARTOON_VERSION } from "../lib/version";
 
 export default function Header() {
   const { locale, setLocale, t } = useTranslation();
@@ -15,7 +16,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto flex items-center justify-between py-4 px-6">
         <div className="flex items-center gap-3">
           <Link href="/" className="font-extrabold text-lg">{t("header.title")}</Link>
-          <div className="text-sm text-neutral-500">{t("header.version")}</div>
+          <div className="text-sm text-neutral-500">{CHARTOON_VERSION}</div>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">
