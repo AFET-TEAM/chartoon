@@ -107,7 +107,7 @@ export default function ChartPlaceholder({
 
         case "pie": {
           // Chartoon Pie expects grouped data: [{ title, data: [{ label, value }] }]
-          chart = new (ChartoonPieChart)(mountEl, {
+          new (ChartoonPieChart)(mountEl, {
             data: [{ title: "Series 1", data: [{ label: "A", value: 30 }, { label: "B", value: 70 }] }],
             width: 320,
             height: 320,
@@ -188,7 +188,7 @@ export default function ChartPlaceholder({
               width,
               height,
               responsive: true,
-            } as any);
+            });
           };
 
           // initial create
@@ -286,7 +286,6 @@ export default function ChartPlaceholder({
       }
     } catch (e) {
       // If chart instantiation fails, leave placeholder text
-      // eslint-disable-next-line no-console
       console.error("Chart mount error:", e);
     }
 

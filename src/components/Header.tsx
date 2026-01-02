@@ -18,10 +18,6 @@ export default function Header() {
           <div className="text-sm text-neutral-500">{t("header.version")}</div>
         </div>
         <div className="flex items-center gap-4">
-          <nav className="hidden sm:flex gap-4">
-            <NavLink href={NAV_LINKS.showcase}>{t("header.nav.showcase")}</NavLink>
-            <NavLink href={NAV_LINKS.features}>{t("header.nav.features")}</NavLink>
-          </nav>
           <div className="flex items-center gap-3">
             <LanguageDropdown locale={locale} setLocale={setLocale} />
             <ThemeSwitch />

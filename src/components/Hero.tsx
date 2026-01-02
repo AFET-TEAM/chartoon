@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "../i18n/LocaleProvider";
 import logo from "../assets/images/logo.png"
 export default function Hero() {
@@ -25,7 +26,7 @@ export default function Hero() {
       </div>
 
       <div className="flex-1">
-    <img src={logo.src} alt="Chartoon Logo" />
+        <Image src={logo} alt="Chartoon Logo" priority />
       </div>
     </section>
   );
