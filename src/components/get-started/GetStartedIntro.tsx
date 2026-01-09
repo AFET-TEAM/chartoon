@@ -15,14 +15,8 @@ export default function GetStartedIntro() {
         </div>
       </section>
 
-      <section className="mb-6">
-        <h2 className="font-medium mb-2">{t("getStarted.usageTitle")}</h2>
-        <div className="rounded-md bg-neutral-100 dark:bg-neutral-900 p-4 font-mono text-sm overflow-x-auto">
-          <pre className="whitespace-pre">{t("getStarted.usageCode")}</pre>
-        </div>
-      </section>
 
-      <p className="text-sm text-neutral-500">{t("getStarted.description")}</p>
+      
     </div>
   );
 }

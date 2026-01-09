@@ -46,7 +46,7 @@
   ,
   "getStarted": {
     "title": "Başlarken",
-    "description": "Bir npm paketinin nasıl kurulacağını ve kullanılacağını gösteren kısa bir örnek. (Metinleri daha sonra değiştirebilirsiniz.)",
+    "description": "Bir npm paketinin nasıl kurulacağını ve kullanılacağını gösteren kısa bir örnek.",
     "installTitle": "Kurulum",
     "installCommand": "npm i chartoon",
     "usageTitle": "Kullanım",

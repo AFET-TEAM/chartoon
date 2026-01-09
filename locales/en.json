@@ -46,7 +46,7 @@
   ,
   "getStarted": {
     "title": "Get Started",
-    "description": "A short example showing how to install and use an npm package. (You can change these texts later.)",
+    "description": "A short example showing how to install and use an npm package.",
     "installTitle": "Install",
     "installCommand": "npm i chartoon",
     "usageTitle": "Usage",
